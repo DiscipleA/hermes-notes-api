@@ -60,8 +60,7 @@ def make_handler():
             except (UnicodeDecodeError, ValueError, RecursionError):
                 return self.error(400, "Malformed JSON body")
             text = payload.get("text") if isinstance(payload, dict) else None
-            # Intentional teaching limitation: whitespace-only strings pass this check.
-            if not isinstance(text, str) or not text:
+            if not isinstance(text, str) or not text or not text.strip():
                 return self.error(400, "text must be a non-empty string")
             note = {"id": next_id, "text": text}
             notes[next_id] = note
